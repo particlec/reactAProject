@@ -11,6 +11,8 @@ import Login from '../login';
 import App from '../App';
 import LineChart from '../lineChart/lineChart';
 import Register from '../register';
+import ClipTest from '../utils/clipTest';
+import ClipTest02 from '../utils/clipTest02';
 import Declare from '../utils/declare';
 import Simplest from '../utils/simpTest';
 import LayoutRoute from './layoutRoute';
@@ -44,6 +46,10 @@ function Routers() {
             </Route>
             <Route exact path="/App/ClipBottom">
               <ClipBottom />
+            </Route>
+            <Route exact path="/App/ClipTest">
+              <ClipTest />
+              {/*<ClipTest02 />*/}
             </Route>
 
             <Redirect to="/home/login" />

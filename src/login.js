@@ -51,7 +51,8 @@ function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
   }
 
   function Simplest() {
-    history.push(`/Simplest`);
+    history.push(`/App/ClipTest`);
+    // history.push(`/Simplest`);
   }
 
   function funGetVerifyCode() {

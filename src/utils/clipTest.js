@@ -39,6 +39,7 @@ function ClipTest() {
 
   let img = new Image();
   let img02 = new Image();
+
   // 生成裁剪路径 剪一个平图
   function createClipPath(ctx, size = 100, styleIndex = 0) {
     const styles = [
@@ -87,32 +88,34 @@ function ClipTest() {
   }
 
   window.onload = function (e) {
-    let canvas = document.getElementById('tutorial');
+    // let canvas = document.getElementById('tutorial');
 
-    const ctxShadow = document.getElementById('shadowCanvas').getContext('2d');
+    // const ctxShadow = document.getElementById('shadowCanvas').getContext('2d');
     const ctxFragment = document
       .getElementById('fragmentCanvas')
       .getContext('2d');
 
-    let ctx = canvas.getContext('2d');
+    // let ctx = canvas.getContext('2d');
 
     const styleIndex = Math.floor(Math.random() * 16);
-    createClipPath(ctxShadow, 50, styleIndex);
+    // createClipPath(ctxShadow, 50, styleIndex);
     createClipPath(ctxFragment, 50, styleIndex);
 
     const clipX = 100 + 50 * Math.floor(Math.random() * 4);
     const clipY = 50 * Math.floor(Math.random() * 4);
 
+    console.log(clipX);
+    console.log(clipY);
     // 让小块绘制出被裁剪的部分
     // ctx.drawImage(img, clipX, clipY, 50, 50, 0, 0, 50, 50);
-    ctxFragment.drawImage(img, clipX, clipY, 50, 50, 0, 0, 50, 50);
+    ctxFragment.drawImage(img, clipX, clipY, 50, 50, 0, clipY, 50, 50);
 
     // 让阴影canvas带上阴影效果
-    ctxShadow.fillStyle = 'rgba(0, 0, 0, 0.5)';
-    ctxShadow.fill();
+    // ctxShadow.fillStyle = 'rgba(0, 0, 0, 0.5)';
+    // ctxShadow.fill();
 
-    // 恢复画布状态
-    ctxShadow.restore();
+    // // 恢复画布状态
+    // ctxShadow.restore();
     ctxFragment.restore();
 
     setOffsetX(clipX);
@@ -120,8 +123,6 @@ function ClipTest() {
 
     // 修改状态
     setRunStatus(STATUS_READY);
-
-    ctx.save();
   };
   img02.src = imageUrl;
   img.src = imageUrl;
@@ -211,26 +212,27 @@ function ClipTest() {
         className="image-container"
         style={{ height: 200, width: 300, backgroundImage: `url(${imageUrl})` }}
       >
-        <canvas
-          id="tutorial"
-          width="300"
-          height="200"
-          style={{ zIndex: '9' }}
-        />
-        <canvas
-          id="shadowCanvas"
-          // ref="shadowCanvas"
-          className="canvas"
-          width={50}
-          height={50}
-          // style={{ left: offsetX + 'px', top: offsetY + 'px' }}
-        />
+        {/*<canvas*/}
+        {/*  id="tutorial"*/}
+        {/*  width="300"*/}
+        {/*  height="200"*/}
+        {/*  style={{ zIndex: '9' }}*/}
+        {/*/>*/}
+        {/*<canvas*/}
+        {/*  id="shadowCanvas"*/}
+        {/*  // ref="shadowCanvas"*/}
+        {/*  className="canvas"*/}
+        {/*  width={50}*/}
+        {/*  height={50}*/}
+        {/*  // style={{ left: offsetX + 'px', top: offsetY + 'px' }}*/}
+        {/*/>*/}
         <canvas
           id="fragmentCanvas"
           // ref="fragmentCanvas"
           className="canvas"
           width={50}
           height={50}
+          style={{ zIndex: '9' }}
           // style={{ top: offsetY + 'px', left: currX + 'px' }}
         />
       </div>
@@ -239,7 +241,7 @@ function ClipTest() {
         style={{
           width: '300px',
           height: '50px',
-          backgroundColor: 'green',
+          backgroundColor: 'white',
           position: 'relative',
         }}
         className="slider-wrpper"
@@ -255,7 +257,7 @@ function ClipTest() {
           style={{
             zIndex: '5',
             position: 'absolute',
-            backgroundColor: 'red',
+            backgroundColor: 'buttonface',
             width: '50px',
             height: '50px',
             left: currX + 'px',

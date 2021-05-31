@@ -1,0 +1,67 @@
+@import '~antd/dist/antd.css';
+.background::before {
+    content: "q";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    min-height: 100%;
+    background-color: rgb(0 0 0);
+    opacity:0.5;
+}
+
+.wall{
+    position: absolute;
+    top:20%;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    height: 500px;
+}
+
+@media (max-width:800px) {
+    .wall{
+        top: 14%;
+    }
+}
+
+@media (max-width:570px){
+    .wall{
+        top:10%
+    }
+    .login-content{
+        max-width: 300px;
+    }
+}
+
+.login-wall{
+    margin: 0 auto;
+    max-width: 400px;
+}
+
+.login-content{
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    z-index: 5;
+    text-align:center;
+}
+
+
+Button,
+input{
+    padding:13px 20px;
+    font-size: 16px;
+    border-radius:36px;
+}
+
+
+
+.btn{
+    font-size: 17px;
+
+    background: #ff6d00;
+    color: white;
+}
+

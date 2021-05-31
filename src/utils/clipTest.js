@@ -31,6 +31,8 @@ function ClipTest() {
 
   const [showTips, setShowTips] = useState(false);
   const [tipsIndex, setTipsIndex] = useState(0);
+  const [clipY, setClipY] = useState(0);
+  const [clipX, setClipX] = useState(0);
 
   let buttonDom = document.getElementById('slider-button');
 
@@ -90,7 +92,7 @@ function ClipTest() {
   window.onload = function (e) {
     // let canvas = document.getElementById('tutorial');
 
-    // const ctxShadow = document.getElementById('shadowCanvas').getContext('2d');
+    const ctxShadow = document.getElementById('shadowCanvas').getContext('2d');
     const ctxFragment = document
       .getElementById('fragmentCanvas')
       .getContext('2d');
@@ -98,11 +100,14 @@ function ClipTest() {
     // let ctx = canvas.getContext('2d');
 
     const styleIndex = Math.floor(Math.random() * 16);
-    // createClipPath(ctxShadow, 50, styleIndex);
+    createClipPath(ctxShadow, 52, styleIndex);
     createClipPath(ctxFragment, 50, styleIndex);
 
     const clipX = 100 + 50 * Math.floor(Math.random() * 4);
     const clipY = 50 * Math.floor(Math.random() * 4);
+
+    setClipY(clipY);
+    setClipX(clipX);
 
     console.log(clipX);
     console.log(clipY);
@@ -111,11 +116,11 @@ function ClipTest() {
     ctxFragment.drawImage(img, clipX, clipY, 50, 50, 0, clipY, 50, 50);
 
     // 让阴影canvas带上阴影效果
-    // ctxShadow.fillStyle = 'rgba(0, 0, 0, 0.5)';
-    // ctxShadow.fill();
+    ctxShadow.fillStyle = 'rgba(0, 0, 0, 0.5)';
+    ctxShadow.fill();
 
     // // 恢复画布状态
-    // ctxShadow.restore();
+    ctxShadow.restore();
     ctxFragment.restore();
 
     setOffsetX(clipX);
@@ -218,22 +223,23 @@ function ClipTest() {
         {/*  height="200"*/}
         {/*  style={{ zIndex: '9' }}*/}
         {/*/>*/}
-        {/*<canvas*/}
-        {/*  id="shadowCanvas"*/}
-        {/*  // ref="shadowCanvas"*/}
-        {/*  className="canvas"*/}
-        {/*  width={50}*/}
-        {/*  height={50}*/}
-        {/*  // style={{ left: offsetX + 'px', top: offsetY + 'px' }}*/}
-        {/*/>*/}
+        <canvas
+          id="shadowCanvas"
+          // ref="shadowCanvas"
+          className="canvas"
+          width={50}
+          height={50}
+          style={{ top: clipY + 'px', left: clipX + 'px' }}
+          // style={{ left: offsetX + 'px', top: offsetY + 'px' }}
+        />
         <canvas
           id="fragmentCanvas"
           // ref="fragmentCanvas"
           className="canvas"
           width={50}
           height={50}
-          style={{ zIndex: '9' }}
-          // style={{ top: offsetY + 'px', left: currX + 'px' }}
+          // style={{ zIndex: '9' }}
+          style={{ top: 0 + 'px', left: 0 + 'px' }}
         />
       </div>
 

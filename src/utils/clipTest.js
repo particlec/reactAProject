@@ -34,6 +34,9 @@ function ClipTest() {
   const [clipY, setClipY] = useState(0);
   const [clipX, setClipX] = useState(0);
 
+  // 切割图片移动的x轴
+  const [moveX, setMoveX] = useState(0);
+
   let buttonDom = document.getElementById('slider-button');
 
   let disX;
@@ -106,6 +109,9 @@ function ClipTest() {
     const clipX = 100 + 50 * Math.floor(Math.random() * 4);
     const clipY = 50 * Math.floor(Math.random() * 4);
 
+    console.log(clipY);
+    console.log(clipX);
+
     setClipY(clipY);
     setClipX(clipX);
 
@@ -113,7 +119,7 @@ function ClipTest() {
     console.log(clipY);
     // 让小块绘制出被裁剪的部分
     // ctx.drawImage(img, clipX, clipY, 50, 50, 0, 0, 50, 50);
-    ctxFragment.drawImage(img, clipX, clipY, 50, 50, 0, clipY, 50, 50);
+    ctxFragment.drawImage(img, clipX, clipY, 50, 50, 0, 0, 50, 50);
 
     // 让阴影canvas带上阴影效果
     ctxShadow.fillStyle = 'rgba(0, 0, 0, 0.5)';
@@ -215,7 +221,12 @@ function ClipTest() {
     <div>
       <div
         className="image-container"
-        style={{ height: 200, width: 300, backgroundImage: `url(${imageUrl})` }}
+        style={{
+          height: 200,
+          width: 300,
+          backgroundImage: `url(${imageUrl})`,
+          position: 'relative',
+        }}
       >
         {/*<canvas*/}
         {/*  id="tutorial"*/}
@@ -229,7 +240,11 @@ function ClipTest() {
           className="canvas"
           width={50}
           height={50}
-          style={{ top: clipY + 'px', left: clipX + 'px' }}
+          style={{
+            top: clipY + 'px',
+            left: clipX + 'px',
+            position: 'absolute',
+          }}
           // style={{ left: offsetX + 'px', top: offsetY + 'px' }}
         />
         <canvas
@@ -238,8 +253,13 @@ function ClipTest() {
           className="canvas"
           width={50}
           height={50}
+          style={{
+            top: clipY + 'px',
+            left: currX + 'px',
+            position: 'absolute',
+          }}
           // style={{ zIndex: '9' }}
-          style={{ top: 0 + 'px', left: 0 + 'px' }}
+          // style={{ top: 0 + 'px', left: 0 + 'px' }}
         />
       </div>
 
@@ -252,7 +272,7 @@ function ClipTest() {
         }}
         className="slider-wrpper"
         onMouseMove={onMoving}
-        // onMouseLeave={onMoveEnd}
+        onMouseLeave={onMoveEnd}
       >
         <div className="slider-bar">按住滑块，拖动完成拼图</div>
         <div

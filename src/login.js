@@ -12,6 +12,10 @@ import userService, { appPrefix } from './apis/userService';
 import { useHistory } from 'react-router-dom';
 
 function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
+  //滑动验证码控制
+  const [isSlidingVerificationCode, setIsSlidingVerificationCode] =
+    useState(false);
+
   let history = useHistory();
   const [messageId, setMessageId] = useState('');
   const [timer, setTimer] = useState(false);
@@ -132,6 +136,13 @@ function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
     });
   }
 
+  async function code() {
+    await setIsSlidingVerificationCode(true);
+    !isSlidingVerificationCode
+      ? moblieLogin()
+      : setIsSlidingVerificationCode(true);
+  }
+
   return (
     <div
       className="background"
@@ -155,6 +166,8 @@ function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
             />
 
             <h1 style={{ color: 'white' }}>登陆</h1>
+            {isSlidingVerificationCode && <ClipTest />}
+
             {/*<ClipTest02 />*/}
             {/*<ClipTest />*/}
             {/*<ClipTest02 />*/}
@@ -261,7 +274,13 @@ function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
                     <Button
                       style={{ width: '60%' }}
                       onClick={() => {
-                        moblieLogin();
+                        code();
+
+                        // setIsSlidingVerificationCode(true)
+                        //
+                        //
+                        //
+                        // moblieLogin();
                         // f();
                         // historyPush();
                       }}

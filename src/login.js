@@ -67,6 +67,7 @@ function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
 
   function funGetVerifyCode() {
     let phone = getFieldValue('phone');
+
     if (phone) {
       userService
         .getVerifyCode(phone)
@@ -127,7 +128,7 @@ function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
         };
         // jump
         userService
-          .getUserInfo({ params })
+          .getUserInfo(params)
           .then(res => {
             delete params?.type;
             document.getElementsByTagName('form')[0].submit();
@@ -141,6 +142,8 @@ function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
       }
     });
   }
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   async function code() {
     await setIsSlidingVerificationCode(true);
@@ -172,7 +175,7 @@ function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
             />
 
             <h1 style={{ color: 'white' }}>登陆</h1>
-            {clipTest && <ClipTest setIsClipTest={setIsClipTest} />}
+            {/*{clipTest && <ClipTest setIsClipTest={setIsClipTest} />}*/}
 
             {/*<ClipTest02 />*/}
             {/*<ClipTest />*/}
@@ -222,10 +225,6 @@ function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
                       type="submit"
                       style={{ width: '60%' }}
                       htmlType={'submit'}
-                      // onClick={() => {
-                      //   // f();
-                      //   // historyPush();
-                      // }}
                     >
                       Sign Up
                     </Button>

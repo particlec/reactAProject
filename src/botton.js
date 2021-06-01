@@ -16,6 +16,7 @@ function ClipBottom({ history }) {
       <div
         className={'login-bottom1'}
         style={{
+          backgroundColor: 'black',
           // zIndex: '9',
           marginBottom: '100px',
           textAlign: 'center',
@@ -33,7 +34,7 @@ function ClipBottom({ history }) {
           </a>
         </div>
         <div>
-          <span>
+          <span style={{ color: 'white' }}>
             copyright <span className={'copyright'}>&copy;</span>{' '}
             2021广东优特云科技出品
           </span>

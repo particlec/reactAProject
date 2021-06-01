@@ -1,7 +1,6 @@
 import { message } from 'antd';
 import imageUrl from '../icons/success.png';
 import imageUrl02 from '../icons/error.png';
-import logo from '../dark.png';
 import React, { useState } from 'react';
 
 const STATUS_LOADING = 0; // 还没有图片

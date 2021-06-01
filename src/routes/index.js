@@ -12,17 +12,13 @@ import App from '../App';
 import LineChart from '../lineChart/lineChart';
 import Register from '../register';
 import ClipTest from '../utils/clipTest';
-import ClipTest02 from '../utils/clipTest02';
 import Declare from '../utils/declare';
 import Simplest from '../utils/simpTest';
-import LayoutRoute from './layoutRoute';
-import SideLayout from '../utils/sideLayout';
 import ClipBottom from '../botton';
 
 function Routers() {
   return (
     <HashRouter>
-      {/*<Switch>*/}
       <Router>
         <div>
           <Switch>
@@ -49,7 +45,6 @@ function Routers() {
             </Route>
             <Route exact path="/App/ClipTest">
               <ClipTest />
-              {/*<ClipTest02 />*/}
             </Route>
 
             <Redirect to="/home/login" />
@@ -58,7 +53,6 @@ function Routers() {
             <ul>
               <li>
                 <ClipBottom />
-                {/*<Link to="/App/ClipBottom">ClipBottom</Link>*/}
               </li>
             </ul>
           </nav>

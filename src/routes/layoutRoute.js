@@ -1,13 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
-import { useRouteMatch } from 'react-router-dom';
-
-// function LayoutRoute(props) {
-//   const { exact, path, layout, component } = props;
-//   let match = useRouteMatch({ path });
-//   return <layout match={match} component={component} />;
-// }
 
 class LayoutRoute extends Component {
   static propTypes = {

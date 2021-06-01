@@ -7,19 +7,33 @@ export default {
    * 获取当前用户信息
    * @returns {Promise<AxiosResponse<any>>}
    */
-  getUserInfo: ({ params }) => {
-    return instance.post('/uaa/login/checkPwdLoginParam', params);
+  getUserInfo: ({ type, username, password, accountSystemKey }) => {
+    return instance.post('/uaa/login/checkPwdLoginParam', {
+      type,
+      username,
+      password,
+      accountSystemKey,
+    });
   },
 
-  // jump: () => {
-  //   return instance.get('/development-console');
-  // },
-  // useRegister: ({ params }) => {
-  //   return instance.post('/uaa/login/checkMobileRegisterParam', params);
-  // },
-
-  useRegister: params => {
-    return instance.post('/uaa/login/checkMobileRegisterParam', params);
+  useRegister: ({
+    username,
+    smsCode,
+    password,
+    mobile,
+    accountSystemKey,
+    messageId,
+    appPrefix,
+  }) => {
+    return instance.post('/uaa/login/checkMobileRegisterParam', {
+      username,
+      smsCode,
+      password,
+      mobile,
+      accountSystemKey,
+      messageId,
+      appPrefix,
+    });
   },
 
   jump: params => {
@@ -33,7 +47,19 @@ export default {
     });
   },
 
-  mobileLoginApi: data => {
-    return instance.post('/uaa/login/checkMobileLoginParam', data);
+  mobileLoginApi: ({
+    accountSystemKey,
+    appPrefix,
+    messageId,
+    smsCode,
+    mobile,
+  }) => {
+    return instance.post('/uaa/login/checkMobileLoginParam', {
+      accountSystemKey,
+      appPrefix,
+      messageId,
+      smsCode,
+      mobile,
+    });
   },
 };

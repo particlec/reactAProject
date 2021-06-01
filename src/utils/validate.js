@@ -41,14 +41,6 @@ export const enName = (rule, value, callback) => {
       pattern: /^[A-Za-z0-9_]+$/g,
       message: '仅支持大小写字母、数字和下划线',
     },
-    // {
-    //   validator: (rule, value, callback) => {
-    //     if (value && !isNaN(Number(value))) {
-    //       callback("不能全为数字");
-    //     }
-    //     callback();
-    //   },
-    // },
     {
       validator: (rule, value, callback) => {
         if (value) {
@@ -90,14 +82,6 @@ export const phoneRule = (rule, value, callback) => {
     callback();
   }
 };
-
-// export const is1 = (rule, value, callback) => {
-//   console.log("======================");
-//   if (value == 1) {
-//     callback();
-//   }
-//   callback();
-// };
 
 export const isInteger = (rule, value, callback) => {
   if (value) {

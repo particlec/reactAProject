@@ -16,6 +16,7 @@ function ClipBottom({ history }) {
       <div
         className={'login-bottom1'}
         style={{
+          backgroundColor: 'black',
           // zIndex: '9',
           marginBottom: '100px',
           textAlign: 'center',

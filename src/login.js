@@ -4,6 +4,7 @@ import { Button, Col, Form, Input, message, Row, Select } from 'antd';
 import './login.css';
 import logo from './dark.png';
 import QRCode from 'qrcode.react';
+import ClipModel from './utils/clipModel';
 import ClipTest from './utils/clipTest';
 import ClipTest02 from './utils/clipTest02';
 import Simplest from './utils/simpTest';
@@ -12,6 +13,15 @@ import userService, { appPrefix } from './apis/userService';
 import { useHistory } from 'react-router-dom';
 
 function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
+  //滑动验证码控制
+  const [isSlidingVerificationCode, setIsSlidingVerificationCode] =
+    useState(false);
+  //弹窗滑动验证码控制
+  const [isClipModel, setIsClipModel] = useState(false);
+
+  //滑动验证马控制
+  const [clipTest, setIsClipTest] = useState(true);
+
   let history = useHistory();
   const [messageId, setMessageId] = useState('');
   const [timer, setTimer] = useState(false);
@@ -132,6 +142,13 @@ function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
     });
   }
 
+  async function code() {
+    await setIsSlidingVerificationCode(true);
+    !isSlidingVerificationCode
+      ? moblieLogin()
+      : setIsSlidingVerificationCode(true);
+  }
+
   return (
     <div
       className="background"
@@ -155,6 +172,8 @@ function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
             />
 
             <h1 style={{ color: 'white' }}>登陆</h1>
+            {clipTest && <ClipTest setIsClipTest={setIsClipTest} />}
+
             {/*<ClipTest02 />*/}
             {/*<ClipTest />*/}
             {/*<ClipTest02 />*/}
@@ -261,6 +280,8 @@ function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
                     <Button
                       style={{ width: '60%' }}
                       onClick={() => {
+                        setIsSlidingVerificationCode(true);
+
                         moblieLogin();
                         // f();
                         // historyPush();
@@ -327,13 +348,21 @@ function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
                   没有账号立即注册
                 </a>
               </div>
+              {/*<a*/}
+              {/*  onClick={() => {*/}
+              {/*    Simplest();*/}
+              {/*  }}*/}
+              {/*>*/}
+              {/*  测试*/}
+              {/*</a>*/}
               <a
                 onClick={() => {
-                  Simplest();
+                  setIsClipModel(true);
                 }}
               >
-                测试
+                测试2
               </a>
+              {isClipModel && <ClipModel />}
             </div>
           </div>
         </div>

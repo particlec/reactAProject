@@ -1,18 +1,30 @@
-import { message } from 'antd';
+import { Modal } from 'antd';
+import React, { useState, useRef } from 'react';
 import imageUrl from '../icons/success.png';
 import imageUrl02 from '../icons/error.png';
 import logo from '../dark.png';
-import React, { useState } from 'react';
+import ClipTest from './clipTest';
+
+const icoSuccess = require('../icons/success.png');
+const icoError = require('../icons/error.png');
+const icoReload = require('../icons/reload.png');
+const icoSlider = require('../icons/slider.png');
 
 const STATUS_LOADING = 0; // 还没有图片
 const STATUS_READY = 1; // 图片渲染完成,可以开始滑动
 const STATUS_MATCH = 2; // 图片位置匹配成功
 const STATUS_ERROR = 3; // 图片位置匹配失败
 
-function ClipTest({ setIsClipTest }) {
-  const [isUpdataPicture, setIsUpdataPicture] = useState(false);
+const arrTips = [
+  { ico: icoSuccess, text: '匹配成功' },
+  { ico: icoError, text: '匹配失败' },
+];
+
+function ClipModel() {
+  // const recordRef = useRef('refContainer');
+
   const [isMovable, setIsMovable] = useState(true);
-  const [startX, setStartX] = useState();
+  const [startX, setStartX] = useState(null);
   const [currX, setCurrX] = useState(0);
   const [currTop, setCurrTop] = useState(0);
   //裁剪的位置
@@ -21,10 +33,13 @@ function ClipTest({ setIsClipTest }) {
   const [oldX, setOldX] = useState(0);
   const [runStatus, setRunStatus] = useState(STATUS_LOADING);
 
-  // const [showTips, setShowTips] = useState(false);
-  // const [tipsIndex, setTipsIndex] = useState(0);
+  const [showTips, setShowTips] = useState(false);
+  const [tipsIndex, setTipsIndex] = useState(0);
   const [clipY, setClipY] = useState(0);
   const [clipX, setClipX] = useState(0);
+
+  // 切割图片移动的x轴
+  const [moveX, setMoveX] = useState(0);
 
   let buttonDom = document.getElementById('slider-button');
 
@@ -82,10 +97,14 @@ function ClipTest({ setIsClipTest }) {
   }
 
   window.onload = function (e) {
+    // let canvas = document.getElementById('tutorial');
+
     const ctxShadow = document.getElementById('shadowCanvas').getContext('2d');
     const ctxFragment = document
       .getElementById('fragmentCanvas')
       .getContext('2d');
+
+    // let ctx = canvas.getContext('2d');
 
     const styleIndex = Math.floor(Math.random() * 16);
     createClipPath(ctxShadow, 52, styleIndex);
@@ -94,21 +113,17 @@ function ClipTest({ setIsClipTest }) {
     const clipX = 100 + 50 * Math.floor(Math.random() * 4);
     const clipY = 50 * Math.floor(Math.random() * 4);
 
+    console.log(clipY);
+    console.log(clipX);
+
     setClipY(clipY);
     setClipX(clipX);
 
+    console.log(clipX);
+    console.log(clipY);
     // 让小块绘制出被裁剪的部分
-    ctxFragment.drawImage(
-      isUpdataPicture ? img02 : img,
-      clipX,
-      clipY,
-      50,
-      50,
-      0,
-      0,
-      50,
-      50,
-    );
+    // ctx.drawImage(img, clipX, clipY, 50, 50, 0, 0, 50, 50);
+    ctxFragment.drawImage(img, clipX, clipY, 50, 50, 0, 0, 50, 50);
 
     // 让阴影canvas带上阴影效果
     ctxShadow.fillStyle = 'rgba(0, 0, 0, 0.5)';
@@ -124,11 +139,14 @@ function ClipTest({ setIsClipTest }) {
     // 修改状态
     setRunStatus(STATUS_READY);
   };
-
+  img02.src = imageUrl;
   img.src = imageUrl;
-  img02.src = imageUrl02;
 
   const onMoveStart = e => {
+    // if (runStatus !== STATUS_READY) {
+    //   return;
+    // }
+
     disX = e.pageX - Math.floor(buttonDom.offsetLeft);
     disY = e.pageY - Math.floor(buttonDom.offsetTop);
 
@@ -140,20 +158,21 @@ function ClipTest({ setIsClipTest }) {
 
   // 就是提交 滑动的x的绝对坐标，小于0 等于0，大于框，等于最大值
   const onMoving = e => {
-    let currX = e.clientX - (startX === null ? e.clientX : startX);
-    console.log(e.clientX);
-    console.log(startX);
+    // if (runStatus !== STATUS_READY || !isMovable) {
+    //   return;
+    // }
+    let currX = e.clientX - startX;
 
     const minX = 0;
     const maxX = 250;
     currX = currX < minX ? 0 : currX > maxX ? maxX : currX;
-    console.log(currX);
     setCurrX(currX);
   };
 
   let onMouseMove = e => {
     setCurrX(e.pageX - disX);
     setCurrTop(e.pageY - disY);
+    // div.style.top =  + 'px';
   };
 
   const onMoveEnd = () => {
@@ -165,21 +184,22 @@ function ClipTest({ setIsClipTest }) {
     setOldX(currX);
 
     // 利用移动后的x轴坐标与 切割图片时的x轴比较误差
-    const isMatch = Math.abs(currX - clipX) < 10;
+    const isMatch = Math.abs(currX - offsetX) < 5;
+    console.log(currX);
+    console.log(offsetX);
 
+    console.log(isMatch);
     if (isMatch) {
-      setIsClipTest(!isMatch);
-      message.success('验证成功');
       setRunStatus(STATUS_MATCH);
       setCurrX(offsetX);
-      // onShowTips();
+      onShowTips();
       // this.props.onMatch();
     } else {
-      setIsUpdataPicture(true);
       setRunStatus(STATUS_ERROR);
       onReset();
-      // onShowTips();
+      onShowTips();
     }
+    // this.props.onError();
   };
 
   const onReset = () => {
@@ -191,92 +211,33 @@ function ClipTest({ setIsClipTest }) {
     }, 1000);
   };
 
-  // const onShowTips = () => {
-  //   if (showTips) {
-  //     return;
-  //   }
-  //   const tipsIndex = runStatus === STATUS_MATCH ? 0 : 1;
-  //   setShowTips(true);
-  //   setTipsIndex(tipsIndex);
-  //
-  //   const timer = setTimeout(() => {
-  //     setShowTips(false);
-  //     clearTimeout(timer);
-  //   }, 2000);
-  // };
+  const onShowTips = () => {
+    if (showTips) {
+      return;
+    }
+    const tipsIndex = runStatus === STATUS_MATCH ? 0 : 1;
+    setShowTips(true);
+    setTipsIndex(tipsIndex);
+
+    const timer = setTimeout(() => {
+      setShowTips(false);
+      clearTimeout(timer);
+    }, 2000);
+  };
 
   return (
-    <div>
-      <div
-        className="image-container"
-        style={{
-          height: 200,
-          width: 300,
-          backgroundImage: `url(${imageUrl})`,
-          position: 'relative',
-        }}
-      >
-        {/*<canvas*/}
-        {/*  id="tutorial"*/}
-        {/*  width="300"*/}
-        {/*  height="200"*/}
-        {/*  style={{ zIndex: '9' }}*/}
-        {/*/>*/}
-        <canvas
-          id="shadowCanvas"
-          // ref="shadowCanvas"
-          className="canvas"
-          width={50}
-          height={50}
-          style={{
-            top: clipY + 'px',
-            left: clipX + 'px',
-            position: 'absolute',
-          }}
-        />
-        <canvas
-          id="fragmentCanvas"
-          // ref="fragmentCanvas"
-          className="canvas"
-          width={50}
-          height={50}
-          style={{
-            top: clipY + 'px',
-            left: currX + 'px',
-            position: 'absolute',
-          }}
-        />
-      </div>
-
-      <div
-        style={{
-          width: '300px',
-          height: '50px',
-          backgroundColor: 'white',
-          position: 'relative',
-        }}
-        className="slider-wrpper"
-        onMouseMove={onMoving}
-        onMouseLeave={onMoveEnd}
-      >
-        <div className="slider-bar">按住滑块，拖动完成拼图</div>
-        <div
-          id="slider-button"
-          onMouseDown={onMoveStart}
-          onMouseMove={onMouseMove}
-          onMouseUp={onMoveEnd}
-          style={{
-            zIndex: '5',
-            position: 'absolute',
-            backgroundColor: 'buttonface',
-            width: '50px',
-            height: '50px',
-            left: currX + 'px',
-            top: currTop + 'px',
-          }}
-        />
-      </div>
-    </div>
+    <Modal
+      centered={true}
+      height={'300px'}
+      width={'350px'}
+      visible
+      maskClosable={false}
+      footer={null}
+      onCancel={() => {}}
+      title="请完成安全验证"
+    >
+      <ClipTest />
+    </Modal>
   );
 }
-export default ClipTest;
+export default ClipModel;

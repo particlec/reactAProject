@@ -175,7 +175,7 @@ function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
             />
 
             <h1 style={{ color: 'white' }}>登陆</h1>
-            {clipTest && <ClipTest setIsClipTest={setIsClipTest} />}
+            {/*{clipTest && <ClipTest setIsClipTest={setIsClipTest} />}*/}
 
             {/*<ClipTest02 />*/}
             {/*<ClipTest />*/}

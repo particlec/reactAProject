@@ -133,7 +133,6 @@ function ClipTest({ setIsClipTest }) {
 
     // 记录滑动开始时的绝对坐标x
     setIsMovable(true);
-    console.log(e.clientX);
     setStartX(e.clientX);
   };
 
@@ -215,15 +214,8 @@ function ClipTest({ setIsClipTest }) {
           position: 'relative',
         }}
       >
-        {/*<canvas*/}
-        {/*  id="tutorial"*/}
-        {/*  width="300"*/}
-        {/*  height="200"*/}
-        {/*  style={{ zIndex: '9' }}*/}
-        {/*/>*/}
         <canvas
           id="shadowCanvas"
-          // ref="shadowCanvas"
           className="canvas"
           width={50}
           height={50}
@@ -235,7 +227,6 @@ function ClipTest({ setIsClipTest }) {
         />
         <canvas
           id="fragmentCanvas"
-          // ref="fragmentCanvas"
           className="canvas"
           width={50}
           height={50}

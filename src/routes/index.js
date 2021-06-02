@@ -14,7 +14,6 @@ import LineChart from '../lineChart/lineChart';
 import Register from '../register';
 import ClipTest from '../utils/clipTest';
 import Declare from '../utils/declare';
-import Simplest from '../utils/simpTest';
 import ClipBottom from '../botton';
 import LayoutRoute from './layoutRoute';
 import SideLayout from '../utils/sideLayout';
@@ -42,9 +41,6 @@ function Routers() {
               </Route>
               <Route exact path="/App/Declare">
                 <Declare />
-              </Route>
-              <Route exact path="/Simplest">
-                <Simplest />
               </Route>
               <Route exact path="/App/login">
                 <App />

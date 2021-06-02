@@ -5,6 +5,7 @@ import './login.css';
 import logo from './dark.png';
 import QRCode from 'qrcode.react';
 import ClipModel from './utils/clipModel';
+import ClipTest from './utils/clipTest';
 
 import { enName, isIntegerOther } from './utils/validate';
 import userService, { appPrefix } from './apis/userService';
@@ -46,11 +47,6 @@ function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
 
   function register() {
     history.push(`/App/Register`);
-  }
-
-  function Simplest() {
-    history.push(`/App/ClipTest`);
-    // history.push(`/Simplest`);
   }
 
   function funGetVerifyCode() {
@@ -136,13 +132,6 @@ function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  async function code() {
-    await setIsSlidingVerificationCode(true);
-    !isSlidingVerificationCode
-      ? moblieLogin()
-      : setIsSlidingVerificationCode(true);
-  }
-
   return (
     <div
       className="background"
@@ -167,7 +156,7 @@ function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
 
             <h1 style={{ color: 'white' }}>登陆</h1>
             {/*{clipTest && <ClipTest setIsClipTest={setIsClipTest} />}*/}
-
+            {/*<ClipTest />*/}
             {/*<ClipTest02 />*/}
             {/*<ClipTest />*/}
             {/*<ClipTest02 />*/}

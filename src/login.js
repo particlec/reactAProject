@@ -5,9 +5,7 @@ import './login.css';
 import logo from './dark.png';
 import QRCode from 'qrcode.react';
 import ClipModel from './utils/clipModel';
-import ClipTest from './utils/clipTest';
-import ClipTest02 from './utils/clipTest02';
-import Simplest from './utils/simpTest';
+
 import { enName, isIntegerOther } from './utils/validate';
 import userService, { appPrefix } from './apis/userService';
 import { useHistory } from 'react-router-dom';
@@ -18,9 +16,6 @@ function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
     useState(false);
   //弹窗滑动验证码控制
   const [isClipModel, setIsClipModel] = useState(false);
-
-  //滑动验证马控制
-  const [clipTest, setIsClipTest] = useState(true);
 
   let history = useHistory();
   const [messageId, setMessageId] = useState('');
@@ -49,13 +44,6 @@ function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
     }
   }, [userId]);
 
-  function encryption(value) {
-    for (let key in value) {
-      value[key] = value[key];
-    }
-    return value;
-  }
-
   function register() {
     history.push(`/App/Register`);
   }
@@ -66,20 +54,23 @@ function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
   }
 
   function funGetVerifyCode() {
-    let phone = getFieldValue('phone');
-
-    if (phone) {
-      userService
-        .getVerifyCode(phone)
-        .then(res => {
-          console.log(res);
-          setMessageId(res.data.utData.messageId);
-        })
-        .catch(e => {
-          message.warn(e);
-        });
-    } else {
-    }
+    validateFields((error, value) => {
+      if (!error) {
+        timers();
+        setTimer(true);
+        if (value.phone) {
+          userService
+            .getVerifyCode(value.phone)
+            .then(res => {
+              console.log(res);
+              setMessageId(res.data.utData.messageId);
+            })
+            .catch(e => {});
+        } else {
+        }
+      } else {
+      }
+    });
   }
 
   function timers() {
@@ -241,6 +232,10 @@ function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
                       {
                         validator: isIntegerOther,
                       },
+                      {
+                        required: true,
+                        message: '请输入账号',
+                      },
                     ],
                   })(
                     <Input
@@ -250,8 +245,8 @@ function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
                   )}
                 </Form.Item>
                 <Form.Item>
-                  <Row gutter={8}>
-                    <Col span={16}>
+                  <Row>
+                    <Col span={15}>
                       {getFieldDecorator('captcha', {
                         rules: [
                           {
@@ -260,12 +255,12 @@ function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
                         ],
                       })(<Input />)}
                     </Col>
-                    <Col span={6}>
+                    <Col span={9}>
                       <Button
+                        block
                         onClick={() => {
-                          funGetVerifyCode();
-                          timers();
-                          setTimer(true);
+                          if (timer) {
+                          } else funGetVerifyCode();
                         }}
                       >
                         {timer ? minuteTimer : '请输入验证码'}
@@ -280,10 +275,7 @@ function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
                       style={{ width: '60%' }}
                       onClick={() => {
                         setIsSlidingVerificationCode(true);
-
                         moblieLogin();
-                        // f();
-                        // historyPush();
                       }}
                     >
                       Sign Up

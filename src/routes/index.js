@@ -18,6 +18,7 @@ import Simplest from '../utils/simpTest';
 import ClipBottom from '../botton';
 import LayoutRoute from './layoutRoute';
 import SideLayout from '../utils/sideLayout';
+const { Footer } = Layout;
 
 function Routers() {
   return (
@@ -58,7 +59,10 @@ function Routers() {
             </Switch>
           </div>
         </Router>
-        <ClipBottom />
+        <Footer>
+          <ClipBottom />
+        </Footer>
+
         {/* 路由动态内容 end */}
       </Layout>
     </HashRouter>

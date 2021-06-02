@@ -80,49 +80,49 @@ function ClipTest({ setIsClipTest }) {
     ctx.closePath();
   }
 
-  window.onload = function (e) {
-    const ctxShadow = document.getElementById('shadowCanvas').getContext('2d');
-    const ctxFragment = document
-      .getElementById('fragmentCanvas')
-      .getContext('2d');
+  // window.onload = function (e) {
+  const ctxShadow = document.getElementById('shadowCanvas').getContext('2d');
+  const ctxFragment = document
+    .getElementById('fragmentCanvas')
+    .getContext('2d');
 
-    const styleIndex = Math.floor(Math.random() * 16);
-    createClipPath(ctxShadow, 52, styleIndex);
-    createClipPath(ctxFragment, 50, styleIndex);
+  const styleIndex = Math.floor(Math.random() * 16);
+  createClipPath(ctxShadow, 52, styleIndex);
+  createClipPath(ctxFragment, 50, styleIndex);
 
-    const clipX = 100 + 50 * Math.floor(Math.random() * 4);
-    const clipY = 50 * Math.floor(Math.random() * 4);
+  const clipXs = 100 + 50 * Math.floor(Math.random() * 4);
+  const clipYs = 50 * Math.floor(Math.random() * 4);
 
-    setClipY(clipY);
-    setClipX(clipX);
+  setClipY(clipYs);
+  setClipX(clipXs);
 
-    // 让小块绘制出被裁剪的部分
-    ctxFragment.drawImage(
-      isUpdataPicture ? img02 : img,
-      clipX,
-      clipY,
-      50,
-      50,
-      0,
-      0,
-      50,
-      50,
-    );
+  // 让小块绘制出被裁剪的部分
+  ctxFragment.drawImage(
+    isUpdataPicture ? img02 : img,
+    clipX,
+    clipY,
+    50,
+    50,
+    0,
+    0,
+    50,
+    50,
+  );
 
-    // 让阴影canvas带上阴影效果
-    ctxShadow.fillStyle = 'rgba(0, 0, 0, 0.5)';
-    ctxShadow.fill();
+  // 让阴影canvas带上阴影效果
+  ctxShadow.fillStyle = 'rgba(0, 0, 0, 0.5)';
+  ctxShadow.fill();
 
-    // // 恢复画布状态
-    ctxShadow.restore();
-    ctxFragment.restore();
+  // // 恢复画布状态
+  ctxShadow.restore();
+  ctxFragment.restore();
 
-    setOffsetX(clipX);
-    setOffsetY(clipY);
+  setOffsetX(clipX);
+  setOffsetY(clipY);
 
-    // 修改状态
-    setRunStatus(STATUS_READY);
-  };
+  // 修改状态
+  setRunStatus(STATUS_READY);
+  // };
 
   img.src = imageUrl;
   img02.src = imageUrl02;
@@ -133,7 +133,6 @@ function ClipTest({ setIsClipTest }) {
 
     // 记录滑动开始时的绝对坐标x
     setIsMovable(true);
-    console.log(e.clientX);
     setStartX(e.clientX);
   };
 
@@ -215,15 +214,8 @@ function ClipTest({ setIsClipTest }) {
           position: 'relative',
         }}
       >
-        {/*<canvas*/}
-        {/*  id="tutorial"*/}
-        {/*  width="300"*/}
-        {/*  height="200"*/}
-        {/*  style={{ zIndex: '9' }}*/}
-        {/*/>*/}
         <canvas
           id="shadowCanvas"
-          // ref="shadowCanvas"
           className="canvas"
           width={50}
           height={50}
@@ -235,7 +227,6 @@ function ClipTest({ setIsClipTest }) {
         />
         <canvas
           id="fragmentCanvas"
-          // ref="fragmentCanvas"
           className="canvas"
           width={50}
           height={50}

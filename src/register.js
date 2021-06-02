@@ -2,13 +2,7 @@ import { Button, Col, Form, Input, Row, Select, Checkbox, message } from 'antd';
 import React, { useState } from 'react';
 import userService from './apis/userService';
 import logo from './dark.png';
-import {
-  enName,
-  getVCode,
-  isIntegerOther,
-  phoneRule,
-  vCode,
-} from './utils/validate';
+import { enName, isIntegerOther, phoneRule, vCode } from './utils/validate';
 import { useHistory } from 'react-router-dom';
 
 function Register({
@@ -16,6 +10,7 @@ function Register({
 }) {
   let history = useHistory();
   let enNameRules = enName();
+  const { Option } = Select;
   const [timer, setTimer] = useState(false);
   const [minuteTimer, setMinuteTimer] = useState(60);
   const [agreement, setAgreement] = useState(false);
@@ -26,10 +21,10 @@ function Register({
     initialValue: '86',
   })(
     <Select style={{ width: 'auto' }}>
-      <Select value="86">+86</Select>
-      <Select value="87">+87</Select>
-      <Select value="87">+82</Select>
-      <Select value="87">+83</Select>
+      <Option value="86">+86</Option>
+      <Option value="87">+87</Option>
+      <Option value="87">+82</Option>
+      <Option value="87">+83</Option>
     </Select>,
   );
 
@@ -57,19 +52,25 @@ function Register({
   }
 
   function funGetVerifyCode() {
-    let phone = getFieldValue('phone');
-    if (phone) {
-      userService
-        .getVerifyCode(phone)
-        .then(res => {
-          console.log(res);
-          setMessageId(res.data.utData.messageId);
-        })
-        .catch(e => {
-          message.warn(e);
-        });
-    } else {
-    }
+    validateFields((error, value) => {
+      if (!error) {
+        if (value?.phone) {
+          timers();
+          setTimer(true);
+          userService
+            .getVerifyCode(value?.phone)
+            .then(res => {
+              console.log(res);
+              setMessageId(res.data.utData.messageId);
+            })
+            .catch(e => {
+              message.warn(e);
+            });
+        } else {
+        }
+      } else {
+      }
+    });
   }
 
   function funRegister() {
@@ -98,7 +99,7 @@ function Register({
                 login();
               })
               .catch(err => {
-                message.warn(res.data.utMsg);
+                message.warn(res?.data?.utMsg);
                 console.log(err);
               });
           }
@@ -144,6 +145,10 @@ function Register({
                     {
                       validator: phoneRule,
                     },
+                    {
+                      required: true,
+                      message: '请输入手机号',
+                    },
                   ],
                 })(
                   <Input
@@ -154,31 +159,32 @@ function Register({
               </Form.Item>
 
               <Form.Item>
-                <Row gutter={8}>
-                  <Col span={16}>
+                <Row>
+                  <Col span={15}>
                     {getFieldDecorator('captcha', {
                       rules: [
                         {
-                          required: true,
-                          message: '请输入短信验证码',
+                          validator: vCode,
                         },
                         {
-                          validator: vCode,
+                          required: true,
+                          message: '请输入验证码',
                         },
                       ],
                     })(<Input />)}
                   </Col>
-                  <Col span={6}>
+                  <Col span={9}>
                     <Button
+                      block
                       onClick={() => {
-                        funGetVerifyCode();
-                        timers();
-                        setTimer(true);
+                        if (timer) {
+                        } else {
+                          funGetVerifyCode();
+                        }
                       }}
                     >
                       {timer ? minuteTimer : '请输入验证码'}
                     </Button>
-                    {/*<ImageCode />*/}
                   </Col>
                 </Row>
               </Form.Item>
@@ -215,7 +221,13 @@ function Register({
               <Form.Item>
                 {getFieldDecorator('passwordAgain', {
                   // initialValue: basicValues?.password,
-                  rules: [{ validator: verifyPassword }],
+                  rules: [
+                    { validator: verifyPassword },
+                    {
+                      required: true,
+                      message: '请再次输入密码',
+                    },
+                  ],
                 })(
                   <Input.Password
                     name={'password'}

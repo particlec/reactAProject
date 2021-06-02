@@ -14,10 +14,10 @@ import LineChart from '../lineChart/lineChart';
 import Register from '../register';
 import ClipTest from '../utils/clipTest';
 import Declare from '../utils/declare';
-import Simplest from '../utils/simpTest';
 import ClipBottom from '../botton';
 import LayoutRoute from './layoutRoute';
 import SideLayout from '../utils/sideLayout';
+const { Footer } = Layout;
 
 function Routers() {
   return (
@@ -42,9 +42,6 @@ function Routers() {
               <Route exact path="/App/Declare">
                 <Declare />
               </Route>
-              <Route exact path="/Simplest">
-                <Simplest />
-              </Route>
               <Route exact path="/App/login">
                 <App />
               </Route>
@@ -58,7 +55,10 @@ function Routers() {
             </Switch>
           </div>
         </Router>
-        <ClipBottom />
+        <Footer>
+          <ClipBottom />
+        </Footer>
+
         {/* 路由动态内容 end */}
       </Layout>
     </HashRouter>

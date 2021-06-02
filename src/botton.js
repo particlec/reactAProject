@@ -1,7 +1,8 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
-function ClipBottom({ history }) {
+function ClipBottom() {
+  let history = useHistory();
   function jump() {
     history.push(`/App/Declare`);
   }
@@ -43,4 +44,4 @@ function ClipBottom({ history }) {
     </div>
   );
 }
-export default withRouter(ClipBottom);
+export default ClipBottom;

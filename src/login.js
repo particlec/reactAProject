@@ -40,8 +40,11 @@ function Login({ form: { getFieldDecorator, validateFields, getFieldValue } }) {
   );
 
   useEffect(() => {
+    console.log(history);
     if (userId === '5173') {
-      history.push(`/App/LineChart`);
+
+      window.location.href='http://localhost:3000/#/fieldModel/home';
+      // history.push(`/App/LineChart`);
     }
   }, [userId]);
 
